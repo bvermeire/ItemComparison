@@ -18,7 +18,7 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
 
-         <div class="sidebar" v-if="authenticated"> <sidebar/></div>
+         <div class="sidebar-sticky" v-if="authenticated"> <sidebar/></div>
         </nav>
       </div>
 </div>
