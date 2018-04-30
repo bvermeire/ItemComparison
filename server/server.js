@@ -75,6 +75,7 @@ router
     itemInfo.itemname = req.body.itemname; // set the item name (comes from the request)
     itemInfo.wantedprice = req.body.wantedprice; //set the wanted price
     itemInfo.priceperurlday = []; // as url comes in array, we have to split array
+    itemInfo.lowestPrice=0;
     let urlarray = JSON.parse(JSON.stringify(req.body.url));
     for (url in urlarray) {
       var urlPrice = new UrlPrice(); //create a new instance of the UrlPrice model
@@ -128,6 +129,7 @@ router
       if (err) res.send(err);
       itemInfo.itemname = req.body.itemname; // update the item info
       itemInfo.wantedprice = req.body.wantedprice;
+      itemInfo.lowestPrice = req.body.lowestPrice;
       // save the siteinfo
       itemInfo.save(function(err) {
       if (err) res.send(err);
