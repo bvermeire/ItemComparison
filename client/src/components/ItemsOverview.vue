@@ -29,7 +29,7 @@
   </table>
   <b-button href="/Home">Back</b-button>
   <b-button href="/Home" variant="success" class="btn btn-secondary float-right">TODO New Item</b-button>
- 
+
   
  </div>
 </template>
