@@ -1,27 +1,37 @@
 <template>
- <div>
-   <p></p>
-   <h1 class="h2">Items</h1>
-  <div class="table-responsive">
-    <table class="table table-striped table-sm">
-      <thead>
-        <tr>
+<div class="container">
+  <p></p>
+  <h1 class="h2">Items</h1>
+  <table class="table table-striped table-responsive-md btn-table">
+  <!--Table head-->
+  <thead>
+      <tr>
+          <th ></th>
           <th>Item Name</th>
           <th>Wanted Price</th>
-          <th>Sites</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in items" v-bind:key="item._id">
-          <td>{{item.itemname}}</td>
-          <td>{{item.wantedprice}}</td>
-          <td v-for="site in urls" v-bind:key="site._id" v-if="site.temp2==item._id">{{site.temp}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
- </div>
+          <th>Found Price</th>
+      </tr>
+  </thead>
+  <!--Table head-->
 
+  <!--Table body-->
+  <tbody>
+      <tr v-for="item in items" v-bind:key="item.id">
+          <td scope="row" class="text-center"><router-link class="secondary-content" v-bind:to="{name: 'view-item', params: {item_id: item._id}}">
+          <i class="fas fa-search fa-fw"></i></router-link> <!-- {{"  "+ (items.indexOf(item)+1) }} --></td>
+          <th>{{item.itemname}}
+          </th>
+          <td>{{item.wantedprice}}</td>
+          <td>{{item.lowestPrice}}</td>
+      </tr>
+  </tbody>
+
+  </table>
+  <b-button href="/Home">Back</b-button>
+  <b-button href="/Home" variant="success" class="btn btn-secondary float-right">TODO New Item</b-button>
+ 
+  
+ </div>
 </template>
   
 <script>
@@ -33,8 +43,8 @@ export default {
   data () {
     return {
       accessToken: '',
-      items: '',
-      urls:[]
+      items: [],
+      itemId: '/',
       // headers: { Authorization: `Bearer ${accessToken}` }
     }
   },
@@ -55,15 +65,6 @@ export default {
         axios.defaults.headers.common['Authorization'] = `Bearer `+ token
         const response = await axios.get('http://localhost:8080/api/iteminfo')
         this.items = response.data
-        for (var count in this.items){
-          var temp =[]
-          var temp2 = this.items[count]._id
-          for (var test in this.items[count].priceperurlday){
-            temp.push(this.items[count].priceperurlday[test].url)
-          }
-          var temp3 = {temp2, temp}
-          this.urls.push(temp3)
-        }
         return response
       }
       catch (error) {
@@ -73,3 +74,9 @@ export default {
   }
 }
 </script>
+<style>
+i{
+  color:black;
+}
+</style>
+

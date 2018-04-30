@@ -3,6 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import { Table } from 'bootstrap-vue/es/components';
+import { ListGroup } from 'bootstrap-vue/es/components';
+import { Button } from 'bootstrap-vue/es/components';
+
+Vue.use(Button);
+Vue.use(ListGroup);
+Vue.use(Table);
 
 Vue.config.productionTip = false
 
