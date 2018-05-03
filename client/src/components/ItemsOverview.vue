@@ -29,7 +29,26 @@
   </table>
   <b-button href="/Home">Back</b-button>
   <b-button href="/Home" variant="success" class="btn btn-secondary float-right">TODO New Item</b-button>
-
+  <v-btn
+        :loading="loading3"
+        @click.native="loader = 'loading3'"
+        :disabled="loading3"
+        color="blue-grey"
+        class="white--text"
+      >
+        Upload
+        <v-icon right dark>cloud_upload</v-icon>
+      </v-btn>
+<v-btn
+        :loading="loading3"
+        @click.native="loader = 'loading3'"
+        :disabled="loading3"
+        color="blue-grey"
+        class="white--text"
+      >
+        Upload
+        <v-icon right dark>cloud_upload</v-icon>
+      </v-btn>
   
  </div>
 </template>
@@ -45,6 +64,7 @@ export default {
       accessToken: '',
       items: [],
       itemId: '/',
+      loading3: false,
       // headers: { Authorization: `Bearer ${accessToken}` }
     }
   },

@@ -4,7 +4,12 @@
     <h1 class="h2">Item View</h1>
     {{itemname}}
     {{sitename}}
-
+    <ul class="collection">
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+    </ul>
 </div>
 </template>
 <script>
