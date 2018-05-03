@@ -1,34 +1,80 @@
 <template>
   <div id="app">
-  <div class="sidebar-sticky" v-if="authenticated"> <sidebar/></div>
-  <div class="center-align valign-wrapper" v-if="!authenticated">
-    <v-app id="inspire">
-      <v-card>
-        <v-card-text>
-          <p class="text-xs-center">
-            <router-view 
-            :auth="auth" 
+  <v-app id="inspire" dark v-if="authenticated"> 
+    <v-navigation-drawer
+      clipped
+      fixed
+      v-model="drawer"
+      app
+    >
+      <v-list dense>
+        <v-list-tile to="/home">
+          <v-list-tile-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Dashboard</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile to="/items">
+          <v-list-tile-action>
+            <v-icon>local_grocery_store</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Items</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon>settings</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Settings</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app fixed clipped-left>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>Item Comparison</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="logout()">
+        <v-icon>exit_to_app</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid fill-height>
+        <router-view :auth="auth" 
             :authenticated="authenticated">
             </router-view>
-          </p>
-        </v-card-text>
-      </v-card>
-    </v-app>
-  </div>
+      </v-container>
+    </v-content>
+    <v-footer app fixed>
+      <span>&copy; </span>
+    </v-footer>
+  </v-app>
+   <v-app v-if="!authenticated">
+         <v-content>
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+          <v-flex shrink>
+            You are not logged in! Please <a @click="auth.login()">Log In</a> to continue.
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+   </v-app>
 </div>
+
 </template>
 
 <script>
 import AuthService from './auth/AuthService'
-import sidebar from './components/SideBar'
 const auth = new AuthService()
 const { login, logout, authenticated, authNotifier } = auth
 
 export default {
   name: 'app',
-  components: {
-    sidebar
-  },
   data () {
     authNotifier.on('authChange', authState => {
       this.authenticated = authState.authenticated
@@ -36,7 +82,7 @@ export default {
     return {
       auth,
       authenticated,
-      drawer: null
+      drawer: true
     }
   },
   methods: {
