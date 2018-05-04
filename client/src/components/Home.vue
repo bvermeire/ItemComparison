@@ -1,7 +1,7 @@
 <template>
 <v-layout justify-left align-left v-if="authenticated">
           <v-flex shrink>
-            asdfasdf
+            <dashboard/>
           </v-flex>
 </v-layout>
 

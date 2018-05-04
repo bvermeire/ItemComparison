@@ -6,7 +6,8 @@ var ItemInfoSchema = new Schema({
   itemname: String,
   wantedprice: Number,
   priceperurlday: [UrlPrice],
-  lowestPrice:Number
+  lowestPrice:Number,
+  currentPrice:Number
 });
 
 module.exports = mongoose.model("ItemInfo", ItemInfoSchema);

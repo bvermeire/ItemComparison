@@ -76,6 +76,7 @@ router
     itemInfo.wantedprice = req.body.wantedprice; //set the wanted price
     itemInfo.priceperurlday = []; // as url comes in array, we have to split array
     itemInfo.lowestPrice=0;
+    itemInfo.currentPrice=0;
     let urlarray = JSON.parse(JSON.stringify(req.body.url));
     for (url in urlarray) {
       var urlPrice = new UrlPrice(); //create a new instance of the UrlPrice model
