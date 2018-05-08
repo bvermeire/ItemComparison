@@ -6,8 +6,9 @@
     <createnew step1="1" v-on:event_child="closeDialog"/>
   </v-dialog>
   <!-- for edit item -->
-  <v-dialog v-model="dialogedit" max-width="600px">
-    <edititem/>
+  <v-dialog v-model="dialogedit"  max-width="600px">
+    <component :is="myComponent" :id="itemID"></component>
+  
   </v-dialog>
   <v-data-table 
     :headers="headers"
@@ -50,9 +51,11 @@ export default {
   data () {
     return {
       dialog: false,
-      dialogedit: true,
+      dialogedit: false,
+      myComponent:'',
       accessToken: '',
       editedIndex: -1,
+      itemID: 'parent',
       items: [],
       headers: [
         { text: 'Item Name', value: 'itemname', sortable: true, },
@@ -123,8 +126,12 @@ export default {
         this.postToDBNewItem(item, localStorage.getItem('access_token'))
         this.fetchData(this.accessToken)
       }
-      
-		}
+		},
+    editItem(item) {
+      this.dialogedit = true
+      this.itemID = item._id
+      this.myComponent = edititem
+    }
   }
 }
 </script>

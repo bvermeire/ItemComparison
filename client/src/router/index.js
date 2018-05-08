@@ -4,7 +4,7 @@ import Home from '@/components/Home'
 // import Callback from '@/components/Callback'
 import ItemsOverview from '@/components/ItemsOverview'
 import AuthService from '../auth/AuthService'
-import ViewItem from '@/components/Viewitem'
+// import ViewItem from '@/components/Viewitem'
 
 Vue.use(Router)
 const auth = new AuthService()
@@ -30,19 +30,19 @@ const router = new Router({
         }
       }
     },
-    {
-      path: '/:item_id',
-      name: 'view-item',
-      component: ViewItem,
-      beforeEnter: (to, from, next) => {
-        if (!auth.isAuthenticated()) {
-          router.push({ path: 'Home' })
-          next(false)
-        } else {
-          next()
-        }
-      }
-    },
+    // {
+    //   path: '/:item_id',
+    //   name: 'view-item',
+    //   component: ViewItem,
+    //   beforeEnter: (to, from, next) => {
+    //     if (!auth.isAuthenticated()) {
+    //       router.push({ path: 'Home' })
+    //       next(false)
+    //     } else {
+    //       next()
+    //     }
+    //   }
+    // },
     {
       path: '*',
       redirect: '/home'
