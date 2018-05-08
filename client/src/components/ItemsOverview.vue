@@ -2,8 +2,12 @@
 <div>
   <v-dialog v-model="dialog" max-width="600px">
     <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
-    <!-- for edit item -->
+    <!-- for new item -->
     <createnew step1="1" v-on:event_child="closeDialog"/>
+  </v-dialog>
+  <!-- for edit item -->
+  <v-dialog v-model="dialogedit" max-width="600px">
+    <edititem/>
   </v-dialog>
   <v-data-table 
     :headers="headers"
@@ -35,15 +39,18 @@
 /* eslint-disable */
 import axios from 'axios'
 import createnew from './CreateNew'
+import edititem from './EditItem'
 export default {
   name: 'itemsoverview',
   props: ['auth', 'authenticated'],
   components: {
-    createnew
+    createnew,
+    edititem
   },
   data () {
     return {
       dialog: false,
+      dialogedit: true,
       accessToken: '',
       editedIndex: -1,
       items: [],
