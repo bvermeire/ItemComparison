@@ -1,14 +1,15 @@
 <template>
 <div>
-  <v-dialog v-model="dialog" max-width="500px">
+  <v-dialog v-model="dialog" max-width="600px">
     <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
     <!-- for edit item -->
-    <createnew/>
+    <createnew step1="1" v-on:event_child="closeDialog"/>
   </v-dialog>
-  <v-data-table
+  <v-data-table 
     :headers="headers"
     :items="items"
     hide-actions
+    ref="vuetable"
     class="elevation-1"
   >
     <template slot="items" slot-scope="props">
@@ -25,9 +26,7 @@
         </v-btn>
       </td>
     </template>
-    <template slot="no-data">
-      <v-btn color="primary" @click="fetchData">Reset</v-btn>
-    </template>
+    
   </v-data-table>
     </div>
 </template>
@@ -82,11 +81,43 @@ export default {
         console.log(error)
       }
     },
+    async postToDBNewItem(item, token){
+      try {
+        axios.defaults.headers.common['Authorization'] = `Bearer `+ token
+        const response = await axios.post("http://localhost:8080/api/iteminfo", {itemname: item.name, wantedprice: item.wantedprice, url: item.sites})
+        return response
+        
+      }
+      catch(error){
+        console.log(error)
+      }
+    },
+    async deleteItemFromDB(itemid, token){
+      try {
+        axios.defaults.headers.common['Authorization'] = `Bearer `+ token
+        const response = await axios.delete("http://localhost:8080/api/iteminfo/"+itemid)
+        return response
+        
+      }
+      catch(error){
+        console.log(error)
+      }
+    },
     deleteItem (item) {
       const index = this.items.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
-      console.log("delete item" + this.items[index])
-    }
+      confirm('Are you sure you want to delete this item?') 
+      this.deleteItemFromDB(item._id, this.accessToken)
+      this.items.splice(index, 1)
+    },
+    closeDialog: function(item) {
+			this.dialog=false
+      const index = this.items.indexOf(item)
+      if(item.done==true){
+        this.postToDBNewItem(item, localStorage.getItem('access_token'))
+        this.fetchData(this.accessToken)
+      }
+      
+		}
   }
 }
 </script>
