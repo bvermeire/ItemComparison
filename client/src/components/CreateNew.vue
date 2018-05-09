@@ -41,14 +41,21 @@
     Site addition   
   </v-stepper-step>
     <v-stepper-content step="3">
-        <v-form ref="form" v-model="valid">
-      <v-select
-            v-model="item.sites"
-            :items="item.sites"
-            label="Add sites"
-            
-            tags
-          ></v-select>
+      <v-form ref="form" v-model="valid">
+        <label v-if="item.sites.length>0" class="site_list_label">Sites:</label>
+        <v-flex>
+          <ul class="site_list">
+            <li v-for="(item,index) in item.sites" :key="index">
+              {{item}}
+              <v-btn flat icon color="white" @click="removeSite(index)" class="btn_remove_site">
+                <v-icon dark small>delete</v-icon>
+              </v-btn>
+            </li>
+          </ul>
+        </v-flex>
+        <v-flex xs10 class="mb-3">
+          <v-text-field ref="addSiteRef" label="Add Site" v-model="site" append-icon="add" :append-icon-cb="addSite"></v-text-field>
+        </v-flex>
     </v-form>
         <v-btn color="primary" @click.native="emit2">Save</v-btn>
         <v-btn flat @click.native="e6 = 2">Cancel</v-btn>
@@ -67,6 +74,7 @@ export default {
             e6: 1,
             dialog: false,
             valid: false,
+            site: '',
             item: {
                 name: '',
                 wantedprice: '',
@@ -102,6 +110,13 @@ export default {
             this.item.done = true
             this.$emit('event_child', this.item)
             this.close()
+        },
+        addSite: function(){
+          this.item.sites.push(this.site)
+          this.site=""
+        },
+        removeSite: function(index){
+          this.item.sites.splice(index, 1)
         }
     }
 }

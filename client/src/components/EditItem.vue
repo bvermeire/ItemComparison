@@ -1,10 +1,16 @@
 <template>
-   <div>
-     <div><h1>{{itemname}}</h1>
-     <h1>{{wantedprice}}</h1>
-     </div>
-     
-  </div>
+<v-list>
+  <v-list-tile v-for="site in sitenames" :key="site._id">
+    <v-list-tile-action>
+    </v-list-tile-action>
+    <v-list-tile-content>
+      <v-list-tile-title v-text="site.url">
+      </v-list-tile-title>
+    </v-list-tile-content>
+    <v-list-tile-avatar>
+    </v-list-tile-avatar>
+  </v-list-tile>
+</v-list>      
 </template>
 <script>
 /* eslint-disable */
@@ -15,9 +21,11 @@ export default {
   data() {
     return {
       itemname: 'test',
-      sitename: [],
+      sitenames: [],
       wantedprice: null,
-      itemId: '/'
+      itemId: '/',
+      e6:1
+
     };
   },
   mounted(){
@@ -31,7 +39,7 @@ export default {
         const response = await axios.get(url)
         this.itemname = response.data.itemname
         this.wantedprice = response.data.wantedprice
-        this.sitename = response.data.priceperurlday
+        this.sitenames = response.data.priceperurlday
         return response.data
         
       }

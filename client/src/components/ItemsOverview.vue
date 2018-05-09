@@ -1,38 +1,54 @@
 <template>
 <div>
-  <v-dialog v-model="dialog" max-width="600px">
-    <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
-    <!-- for new item -->
-    <createnew step1="1" v-on:event_child="closeDialog"/>
-  </v-dialog>
-  <!-- for edit item -->
-  <v-dialog v-model="dialogedit"  max-width="600px">
-    <component :is="myComponent" :id="itemID"></component>
-  
-  </v-dialog>
-  <v-data-table 
-    :headers="headers"
-    :items="items"
-    hide-actions
-    ref="vuetable"
-    class="elevation-1"
-  >
-    <template slot="items" slot-scope="props">
-      <td>{{ props.item.itemname }}</td>
-      <td class="text-xs-right">{{ props.item.wantedprice }}</td>
-      <td class="text-xs-right">{{ props.item.lowestPrice }}</td>
-      <td class="text-xs-right">{{ props.item.currentPrice }}</td>
-      <td class="justify-center layout px-0">
-        <v-btn icon class="mx-0" @click="editItem(props.item)">
-          <v-icon color="teal">edit</v-icon>
-        </v-btn>
-        <v-btn icon class="mx-0" @click="deleteItem(props.item)">
-          <v-icon color="pink">delete</v-icon>
-        </v-btn>
-      </td>
-    </template>
-    
-  </v-data-table>
+  <v-container fluid >
+    <v-layout align-content-start>
+      <v-flex xs2>
+        <v-dialog v-model="dialog" max-width="600px">
+          <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
+          <!-- for new item component -->
+          <createnew step1="1" v-on:event_child="closeDialog"/>
+        </v-dialog>
+         <v-dialog v-model="dialogedit" max-width="600px">
+          <!-- for item details -->
+          <component :is="myComponent" :id="itemID" step1="1" v-on:event_child="closeDialog"></component>
+        </v-dialog>
+      </v-flex>
+    </v-layout>
+    <!--data table-->
+    <v-layout row justify-center>
+      <v-flex d-flex>
+        <v-data-table 
+          :headers="headers"
+          :items="items"
+          hide-actions
+          ref="vuetable"
+          class="elevation-1"
+        > 
+          <template slot="items" slot-scope="props">
+            <td>{{ props.item.itemname }}</td>
+            <td class="text-xs-right">{{ props.item.wantedprice }}</td>
+            <td class="text-xs-right">{{ props.item.lowestPrice }}</td>
+            <td class="text-xs-right">{{ props.item.currentPrice }}</td>
+            <td class="justify-center layout px-0">
+            <v-btn icon class="mx-0" @click="editItem(props.item)">
+              <v-icon color="teal">edit</v-icon>
+            </v-btn>
+            <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+              <v-icon color="pink">delete</v-icon>
+            </v-btn>
+            </td>
+          </template>
+        </v-data-table>
+      </v-flex>
+      <v-flex xs0>
+
+      </v-flex>
+      <v-flex xl10 >
+        
+      </v-flex>
+    </v-layout> 
+  </v-container>
+
     </div>
 </template>
   
@@ -138,6 +154,10 @@ export default {
 <style>
 .icon {
   display: inline-block;
+}
+.flex-grid-thirds {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
 
