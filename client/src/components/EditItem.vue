@@ -5,6 +5,7 @@
     </v-list-tile-action>
     <v-list-tile-content>
       <v-list-tile-title v-text="site.url">
+        test
       </v-list-tile-title>
     </v-list-tile-content>
     <v-list-tile-avatar>
