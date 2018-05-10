@@ -6,11 +6,11 @@
         <v-dialog v-model="dialog" max-width="600px">
           <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
           <!-- for new item component -->
-          <createnew step1="1" v-on:event_child="closeDialog"/>
+          <createnew step1="1" v-on:event_child="closeDialog" v-if="readynewItemComponent"/>
         </v-dialog>
          <v-dialog v-model="dialogedit" max-width="600px">
           <!-- for item details -->
-          <component :is="myComponent" :id="itemID" step1="1" v-on:event_child="closeDialog"></component>
+          <component :is="myComponent" :id="itemID" itemnameviewprop=false v-on:event_child="closeDialogEdit" v-if="readyneweditComponent"></component>
         </v-dialog>
       </v-flex>
     </v-layout>
@@ -68,6 +68,8 @@ export default {
     return {
       dialog: false,
       dialogedit: false,
+      readynewItemComponent: true,
+      readyneweditComponent: true,
       myComponent:'',
       accessToken: '',
       editedIndex: -1,
@@ -85,7 +87,11 @@ export default {
   },
   created () {
     this.accessToken = localStorage.getItem('access_token') || null
-    
+  },
+  watch: {
+    dialog (val) {
+      !val && this.reset("readynewItemComponent")
+    }
   },
   beforeRouteEnter (to, from, next){
     next(vm => {
@@ -131,23 +137,37 @@ export default {
     },
     deleteItem (item) {
       const index = this.items.indexOf(item)
-      confirm('Are you sure you want to delete this item?') 
-      this.deleteItemFromDB(item._id, this.accessToken)
-      this.items.splice(index, 1)
+      if (confirm('Are you sure you want to delete this item?')){
+        this.deleteItemFromDB(item._id, this.accessToken)
+        this.items.splice(index, 1)
+      }
+      
     },
     closeDialog: function(item) {
+      console.log("found you bastard2")
 			this.dialog=false
       const index = this.items.indexOf(item)
       if(item.done==true){
         this.postToDBNewItem(item, localStorage.getItem('access_token'))
         this.fetchData(this.accessToken)
       }
+      this.reset(this.readynewItemComponent)
+    },
+    closeDialogEdit: function(item) {
+      this.reset(this.readyneweditComponent)
 		},
     editItem(item) {
       this.dialogedit = true
       this.itemID = item._id
       this.myComponent = edititem
-    }
+    },
+    reset: function(name) {
+      console.log("closed from watch" +name)
+    var vm = this;
+    vm.name = false;
+    this.$nextTick(() => {
+      vm.name = true;
+    })}
   }
 }
 </script>

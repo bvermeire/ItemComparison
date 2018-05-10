@@ -1,6 +1,7 @@
 <template>
 <div>
-<v-form ref="form" v-model="valid" lazy-validation v-if="itemnameview" color="primary" dark>
+  <div v-if="itemnameview">
+    <v-form ref="form" v-model="valid" lazy-validation color="primary" dark>
       <v-text-field
         v-model="site.url"
         :counter="30"
@@ -9,7 +10,9 @@
         append-icon="save" :append-icon-cb="saveSite"
       ></v-text-field>
 </v-form>  
-<v-list v-if="!itemnameview">
+  </div>
+  <div v-if="!itemnameview">
+<v-list>
   <v-list-tile v-for="site in sitenames" :key="site._id">
     <v-list-tile-content>
       <v-list-tile-title v-text="site.url"></v-list-tile-title>
@@ -21,6 +24,7 @@
     </v-list-tile-action>
   </v-list-tile>
 </v-list>      
+  </div>
 </div>
 </template>
 <script>
@@ -28,7 +32,7 @@
 import axios from 'axios'
 export default {
   name: 'edititem',
-  props:['id'], 
+  props:['id', 'itemnameviewprop'], 
   data() {
     return {
       itemname: 'test',
@@ -41,8 +45,15 @@ export default {
       site: ''
     };
   },
-  mounted(){
+  beforeMount(){
+    this.itemnameview=false
     this.fetchData(this.id, localStorage.getItem('access_token'))
+    this.itemnameview = this.itemnameviewprop
+    console.log(this.itemnameview)
+    console.log(this.itemnameviewprop)
+  },
+  mounted (){
+    this.itemnameview=false
   },
   methods: {
     async fetchData(id, token) {

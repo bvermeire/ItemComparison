@@ -2,7 +2,7 @@
 <v-stepper  v-model="e6" vertical>
 <!-- itemname field -->
   <v-stepper-step step="1" :complete="e6 > 1" >
-    Name of the site {{e6}}
+    Name of the site{{step1}}
   </v-stepper-step>
   <v-stepper-content step="1">
     <v-form ref="form" v-model="valid">
@@ -89,8 +89,18 @@ export default {
       v => v.length <= 10 || 'Price must be less than 10 characters'],
         }
     },
-    mounted () {
-      this.e6 = this.step1
+
+    watch: {
+    dialog (value) { // this is prop's watch
+        if(value) {
+          console.log("got you little bird")
+        } else {
+          console.log(value)
+        }
+      }
+    },
+    beforemount: function(){
+      this.e6=this.step1
     },
     methods: {
         close (){
