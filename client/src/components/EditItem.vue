@@ -49,8 +49,6 @@ export default {
     this.itemnameview=false
     this.fetchData(this.id, localStorage.getItem('access_token'))
     this.itemnameview = this.itemnameviewprop
-    console.log(this.itemnameview)
-    console.log(this.itemnameviewprop)
   },
   mounted (){
     this.itemnameview=false

@@ -3,14 +3,14 @@
   <v-container fluid >
     <v-layout align-content-start>
       <v-flex xs2>
-        <v-dialog v-model="dialog" max-width="600px">
+        <v-dialog v-model="dialog" max-width="600px" >
           <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
           <!-- for new item component -->
-          <createnew step1="1" v-on:event_child="closeDialog" v-if="readynewItemComponent"/>
+          <createnew step1="1" v-on:event_child="closeDialog" v-if="readynewItemComponent&&dialog"/>
         </v-dialog>
          <v-dialog v-model="dialogedit" max-width="600px">
           <!-- for item details -->
-          <component :is="myComponent" :id="itemID" itemnameviewprop=false v-on:event_child="closeDialogEdit" v-if="readyneweditComponent"></component>
+          <component :is="myComponent" :id="itemID" itemnameviewprop=false v-on:event_child="closeDialogEdit" v-if="readyneweditComponent&&dialogedit"></component>
         </v-dialog>
       </v-flex>
     </v-layout>
@@ -144,7 +144,6 @@ export default {
       
     },
     closeDialog: function(item) {
-      console.log("found you bastard2")
 			this.dialog=false
       const index = this.items.indexOf(item)
       if(item.done==true){
@@ -162,7 +161,6 @@ export default {
       this.myComponent = edititem
     },
     reset: function(name) {
-      console.log("closed from watch" +name)
     var vm = this;
     vm.name = false;
     this.$nextTick(() => {

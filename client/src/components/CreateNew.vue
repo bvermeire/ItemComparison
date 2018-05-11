@@ -89,16 +89,6 @@ export default {
       v => v.length <= 10 || 'Price must be less than 10 characters'],
         }
     },
-
-    watch: {
-    dialog (value) { // this is prop's watch
-        if(value) {
-          console.log("got you little bird")
-        } else {
-          console.log(value)
-        }
-      }
-    },
     beforemount: function(){
       this.e6=this.step1
     },
