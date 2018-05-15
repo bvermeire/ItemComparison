@@ -2,7 +2,7 @@
 <v-stepper  v-model="e6" vertical>
 <!-- itemname field -->
   <v-stepper-step step="1" :complete="e6 > 1" >
-    Name of the site{{step1}}
+    Name of the site
   </v-stepper-step>
   <v-stepper-content step="1">
     <v-form ref="form" v-model="valid">

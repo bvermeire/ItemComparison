@@ -1,30 +1,44 @@
 <template>
 <div>
-  <div v-if="itemnameview">
-    <v-form ref="form" v-model="valid" lazy-validation color="primary" dark>
-      <v-text-field
-        v-model="site.url"
-        :counter="30"
-        label="Site Name"
-        required
-        append-icon="save" :append-icon-cb="saveSite"
-      ></v-text-field>
-</v-form>  
-  </div>
-  <div v-if="!itemnameview">
-<v-list>
-  <v-list-tile v-for="site in sitenames" :key="site._id">
-    <v-list-tile-content>
-      <v-list-tile-title v-text="site.url"></v-list-tile-title>
-    </v-list-tile-content>
-    <v-list-tile-action v-if="!itemnameview">
-      <v-btn icon ripple @click="editname(site)">
-        <v-icon color="grey lighten-1" >info</v-icon>
-      </v-btn>
-    </v-list-tile-action>
-  </v-list-tile>
-</v-list>      
-  </div>
+<div v-if="!itemnameview">
+<v-list two-line subheader>
+            <v-subheader inset>Edit Item</v-subheader>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Item Name:</v-list-tile-title>
+                <v-list-tile-sub-title>{{ itemname }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn icon ripple @click="editname(itemname)">
+                  <v-icon color="grey lighten-1">info</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+            <v-list-tile v-for="site in sitenames" :key="site._id">
+              <v-list-tile-content>
+                <v-list-tile-title>Site Name:{{site.index}}</v-list-tile-title>
+                <v-list-tile-sub-title>{{ site.url }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn icon ripple @click="editsite(site)">
+                  <v-icon color="grey lighten-1">info</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+</v-list>
+</div>
+<div v-if="siteview" class="grey darken-1
+">
+  <v-form ref="form" v-model="valid" lazy-validation color="primary" dark>
+    <v-text-field
+      v-model="site.url"
+      :counter="30"
+      label="Site Name"
+      required
+      append-icon="save" :append-icon-cb="saveSite"
+    ></v-text-field>
+  </v-form>  
+</div>
 </div>
 </template>
 <script>
@@ -41,12 +55,14 @@ export default {
       itemId: '/',
       e6:1,
       itemnameview: false,
+      siteview: false,
       valid: false,
       site: ''
     };
   },
   beforeMount(){
     this.itemnameview=false
+    this.siteview= false
     this.fetchData(this.id, localStorage.getItem('access_token'))
     this.itemnameview = this.itemnameviewprop
   },
@@ -69,12 +85,14 @@ export default {
         console.log(error)
       }
     },
-    editname(site){
-      this.itemnameview=!this.itemnameview
+    editsite(site){
+      this.siteview=!this.siteview
       this.site = site
     },
     saveSite() {
-
+    },
+    itemname(name) {
+      this.itemnameview=!this.itemnameview
     }
   }
 }
