@@ -42,57 +42,54 @@
 </div>
 </template>
 <script>
-/* eslint-disable */
 import axios from 'axios'
 export default {
   name: 'edititem',
-  props:['id', 'itemnameviewprop'], 
-  data() {
+  props: ['id', 'itemnameviewprop'],
+  data () {
     return {
       itemname: 'test',
       sitenames: [],
       wantedprice: null,
       itemId: '/',
-      e6:1,
+      e6: 1,
       itemnameview: false,
       siteview: false,
       valid: false,
       site: ''
-    };
+    }
   },
-  beforeMount(){
-    this.itemnameview=false
-    this.siteview= false
+  beforeMount () {
+    this.itemnameview = false
+    this.siteview = false
     this.fetchData(this.id, localStorage.getItem('access_token'))
     this.itemnameview = this.itemnameviewprop
   },
-  mounted (){
-    this.itemnameview=false
+  mounted () {
+    this.itemnameview = false
   },
   methods: {
-    async fetchData(id, token) {
+    async fetchData (id, token) {
       try {
-        axios.defaults.headers.common['Authorization'] = `Bearer `+ token
-        let url = "http://localhost:8080/api/iteminfo/"+id
+        axios.defaults.headers.common['Authorization'] = `Bearer ` + token
+        let url = 'http://localhost:8080/api/iteminfo/' + id
         const response = await axios.get(url)
         this.itemname = response.data.itemname
         this.wantedprice = response.data.wantedprice
         this.sitenames = response.data.priceperurlday
         return response.data
-        
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error)
       }
     },
-    editsite(site){
-      this.siteview=!this.siteview
+    editsite (site) {
+      this.siteview = !this.siteview
       this.site = site
     },
-    saveSite() {
+    saveSite () {
     },
-    itemname(name) {
-      this.itemnameview=!this.itemnameview
+    itemname (name) {
+      this.itemnameview = !this.itemnameview
     }
   }
 }

@@ -60,64 +60,61 @@
         <v-btn color="primary" @click.native="emit2">Save</v-btn>
         <v-btn flat @click.native="e6 = 2">Cancel</v-btn>
       </v-stepper-content>
-      
     </v-stepper>
 </template>
 
 <script>
-/* eslint-disable */
 export default {
-    name: 'createnew',
-    props: ['step1'],
-    data () {
-        return {
-            e6: 1,
-            dialog: false,
-            valid: false,
-            site: '',
-            item: {
-                name: '',
-                wantedprice: '',
-                sites: [],
-                done: false
-            }, 
-            nameRules: [
-      v => !!v || 'Name is required',
-      v => v.length <= 40 || 'Name must be less than 10 characters'],
-            priceRules: [
-      v => !!v || 'Price is required',          
-      v => v.length <= 10 || 'Price must be less than 10 characters'],
-        }
-    },
-    beforemount: function(){
-      this.e6=this.step1
-    },
-    methods: {
-        close (){
-            this.item.name = ''
-            this.item.wantedprice = ''
-            this.item.sites = []
-            this.item.done = false
-     
-        },
-        emit: function() {
-            this.e6 = 1
-            this.$emit('event_child', this.item)
-            this.close()
-		    },
-        emit2: function() {
-            this.e6 = 1
-            this.item.done = true
-            this.$emit('event_child', this.item)
-            this.close()
-        },
-        addSite: function(){
-          this.item.sites.push(this.site)
-          this.site=""
-        },
-        removeSite: function(index){
-          this.item.sites.splice(index, 1)
-        }
+  name: 'createnew',
+  props: ['step1'],
+  data () {
+    return {
+      e6: 1,
+      dialog: false,
+      valid: false,
+      site: '',
+      item: {
+        name: '',
+        wantedprice: '',
+        sites: [],
+        done: false
+      },
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => v.length <= 40 || 'Name must be less than 10 characters'],
+      priceRules: [
+        v => !!v || 'Price is required',
+        v => v.length <= 10 || 'Price must be less than 10 characters']
     }
+  },
+  beforemount: function () {
+    this.e6 = this.step1
+  },
+  methods: {
+    close () {
+      this.item.name = ''
+      this.item.wantedprice = ''
+      this.item.sites = []
+      this.item.done = false
+    },
+    emit: function () {
+      this.e6 = 1
+      this.$emit('event_child', this.item)
+      this.close()
+    },
+    emit2: function () {
+      this.e6 = 1
+      this.item.done = true
+      this.$emit('event_child', this.item)
+      this.close()
+    },
+    addSite: function () {
+      this.item.sites.push(this.site)
+      this.site = ''
+    },
+    removeSite: function (index) {
+      this.item.sites.splice(index, 1)
+    }
+  }
 }
 </script>

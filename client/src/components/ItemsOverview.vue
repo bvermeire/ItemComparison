@@ -53,7 +53,6 @@
 </template>
   
 <script>
-/* eslint-disable */
 import axios from 'axios'
 import createnew from './CreateNew'
 import edititem from './EditItem'
@@ -70,18 +69,18 @@ export default {
       dialogedit: false,
       readynewItemComponent: true,
       readyneweditComponent: true,
-      myComponent:'',
+      myComponent: '',
       accessToken: '',
       editedIndex: -1,
       itemID: 'parent',
       items: [],
       headers: [
-        { text: 'Item Name', value: 'itemname', sortable: true, },
+        { text: 'Item Name', value: 'itemname', sortable: true },
         { text: 'Wanted Price', value: 'wantedprice' },
         { text: 'Lowest Price', value: 'lowestPrice' },
         { text: 'Current Price', value: 'currentPrice' }
-      ],
-      
+      ]
+
       // headers: { Authorization: `Bearer ${accessToken}` }
     }
   },
@@ -90,82 +89,76 @@ export default {
   },
   watch: {
     dialog (val) {
-      !val && this.reset("readynewItemComponent")
+      !val && this.reset('readynewItemComponent')
     }
   },
-  beforeRouteEnter (to, from, next){
+  beforeRouteEnter (to, from, next) {
     next(vm => {
     // access to component instance via `vm`
       vm.fetchData(localStorage.getItem('access_token'))
     })
-    //get items 
-    //then populate info
+    // get items
+    // then populate info
   },
   methods: {
     async fetchData (token) {
       try {
-        axios.defaults.headers.common['Authorization'] = `Bearer `+ token
+        axios.defaults.headers.common['Authorization'] = `Bearer ` + token
         const response = await axios.get('http://localhost:8080/api/iteminfo')
         this.items = response.data
         return response
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error)
       }
     },
-    async postToDBNewItem(item, token){
+    async postToDBNewItem (item, token) {
       try {
-        axios.defaults.headers.common['Authorization'] = `Bearer `+ token
-        const response = await axios.post("http://localhost:8080/api/iteminfo", {itemname: item.name, wantedprice: item.wantedprice, url: item.sites})
+        axios.defaults.headers.common['Authorization'] = `Bearer ` + token
+        const response = await axios.post('http://localhost:8080/api/iteminfo', {itemname: item.name, wantedprice: item.wantedprice, url: item.sites})
         return response
-        
-      }
-      catch(error){
+      } catch (error) {
         console.log(error)
       }
     },
-    async deleteItemFromDB(itemid, token){
+    async deleteItemFromDB (itemid, token) {
       try {
-        axios.defaults.headers.common['Authorization'] = `Bearer `+ token
-        const response = await axios.delete("http://localhost:8080/api/iteminfo/"+itemid)
+        axios.defaults.headers.common['Authorization'] = `Bearer ` + token
+        const response = await axios.delete('http://localhost:8080/api/iteminfo/' + itemid)
         return response
-        
-      }
-      catch(error){
+      } catch (error) {
         console.log(error)
       }
     },
     deleteItem (item) {
       const index = this.items.indexOf(item)
-      if (confirm('Are you sure you want to delete this item?')){
+      if (confirm('Are you sure you want to delete this item?')) {
         this.deleteItemFromDB(item._id, this.accessToken)
         this.items.splice(index, 1)
       }
-      
     },
-    closeDialog: function(item) {
-			this.dialog=false
-      const index = this.items.indexOf(item)
-      if(item.done==true){
+    closeDialog: function (item) {
+      this.dialog = false
+      if (item.done === true) {
         this.postToDBNewItem(item, localStorage.getItem('access_token'))
         this.fetchData(this.accessToken)
       }
       this.reset(this.readynewItemComponent)
     },
-    closeDialogEdit: function(item) {
+    closeDialogEdit: function (item) {
       this.reset(this.readyneweditComponent)
-		},
-    editItem(item) {
+    },
+    editItem (item) {
       this.dialogedit = true
       this.itemID = item._id
       this.myComponent = edititem
     },
-    reset: function(name) {
-    var vm = this;
-    vm.name = false;
-    this.$nextTick(() => {
-      vm.name = true;
-    })}
+    reset: function (name) {
+      var vm = this
+      vm.name = false
+      this.$nextTick(() => {
+        vm.name = true
+      })
+    }
   }
 }
 </script>
