@@ -1,34 +1,55 @@
 <template>
 <div>
-<div v-if="!itemnameview">
-<v-list two-line subheader>
-            <v-subheader inset>Edit Item</v-subheader>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Item Name:</v-list-tile-title>
-                <v-list-tile-sub-title>{{ itemname }}</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple @click="editname(itemname)">
-                  <v-icon color="grey lighten-1">info</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-            <v-list-tile v-for="site in sitenames" :key="site._id">
-              <v-list-tile-content>
-                <v-list-tile-title>Site Name:{{site.index}}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ site.url }}</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple @click="editsite(site)">
-                  <v-icon color="grey lighten-1">info</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
+<div class="itemdetailist">
+  <v-list two-line subheader>
+    <v-subheader inset>
+      Edit Item
+      <v-spacer></v-spacer>
+      <v-btn
+        color="primary" 
+        class="white--text"
+        @click.native="close"
+        justify-center layout
+      >
+        CLOSE
+      </v-btn>
+    </v-subheader>
+    <v-list-tile>
+      <v-list-tile-content>
+        <v-list-tile-title>Item Name:</v-list-tile-title>
+        <v-list-tile-sub-title>{{ itemname }}</v-list-tile-sub-title>
+      </v-list-tile-content>
+      <v-list-tile-action>
+        <v-btn icon ripple @click="editname(itemname)">
+          <v-icon color="grey lighten-1">info</v-icon>
+        </v-btn>
+      </v-list-tile-action>
+    </v-list-tile>
+        <v-list-tile>
+      <v-list-tile-content>
+        <v-list-tile-title>Wanted Price:</v-list-tile-title>
+        <v-list-tile-sub-title>{{ wantedprice }}</v-list-tile-sub-title>
+      </v-list-tile-content>
+      <v-list-tile-action>
+        <v-btn icon ripple @click="editprice(wantedprice)">
+          <v-icon color="grey lighten-1">info</v-icon>
+        </v-btn>
+      </v-list-tile-action>
+    </v-list-tile>
+    <v-list-tile v-for="site in sitenames" :key="site._id">
+      <v-list-tile-content>
+        <v-list-tile-title>Site Name:{{site.index}}</v-list-tile-title>
+        <v-list-tile-sub-title>{{ site.url }}</v-list-tile-sub-title>
+      </v-list-tile-content>
+      <v-list-tile-action>
+        <v-btn icon ripple @click="editsite(site)">
+          <v-icon color="grey lighten-1">info</v-icon>
+        </v-btn>
+      </v-list-tile-action>
+    </v-list-tile>
 </v-list>
 </div>
-<div v-if="siteview" class="grey darken-1
-">
+<div v-if="siteview" class="grey darken-1">
   <v-form ref="form" v-model="valid" lazy-validation color="primary" dark>
     <v-text-field
       v-model="site.url"
@@ -36,6 +57,28 @@
       label="Site Name"
       required
       append-icon="save" :append-icon-cb="saveSite"
+    ></v-text-field>
+  </v-form>  
+</div>
+<div v-if="itemnameview" class="grey darken-1">
+  <v-form ref="form" v-model="valid" lazy-validation color="primary" dark>
+    <v-text-field
+      v-model="itemname"
+      :counter="30"
+      label="Item Name"
+      required
+      append-icon="save" :append-icon-cb="saveName"
+    ></v-text-field>
+  </v-form>  
+</div>
+<div v-if="priceview" class="grey darken-1">
+  <v-form ref="form" v-model="valid" lazy-validation color="primary" dark>
+    <v-text-field
+      v-model="wantedprice"
+      :counter="30"
+      label="Wanted Price"
+      required
+      append-icon="save" :append-icon-cb="savePrice"
     ></v-text-field>
   </v-form>  
 </div>
@@ -55,6 +98,7 @@ export default {
       e6: 1,
       itemnameview: false,
       siteview: false,
+      priceview: false,
       valid: false,
       site: ''
     }
@@ -87,9 +131,24 @@ export default {
       this.site = site
     },
     saveSite () {
+      this.siteview = !this.siteview
+      alert('still to do')
     },
-    itemname (name) {
+    editname (name) {
       this.itemnameview = !this.itemnameview
+    },
+    saveName () {
+      this.itemnameview = !this.itemnameview
+      alert('still to do')
+    },
+    editprice () {
+      this.priceview = !this.priceview
+    },
+    savePrice () {
+      this.priceview = !this.priceview
+    },
+    close: function () {
+      this.$emit('event_child')
     }
   }
 }

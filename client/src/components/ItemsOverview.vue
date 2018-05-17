@@ -87,11 +87,6 @@ export default {
   created () {
     this.accessToken = localStorage.getItem('access_token') || null
   },
-  watch: {
-    dialog (val) {
-      !val && this.reset('readynewItemComponent')
-    }
-  },
   beforeRouteEnter (to, from, next) {
     next(vm => {
     // access to component instance via `vm`
@@ -142,22 +137,14 @@ export default {
         this.postToDBNewItem(item, localStorage.getItem('access_token'))
         this.fetchData(this.accessToken)
       }
-      this.reset(this.readynewItemComponent)
     },
     closeDialogEdit: function (item) {
-      this.reset(this.readyneweditComponent)
+      this.dialogedit = false
     },
     editItem (item) {
       this.dialogedit = true
       this.itemID = item._id
       this.myComponent = edititem
-    },
-    reset: function (name) {
-      var vm = this
-      vm.name = false
-      this.$nextTick(() => {
-        vm.name = true
-      })
     }
   }
 }
