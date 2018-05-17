@@ -212,16 +212,8 @@ router
   .put(function(req,res){
     ItemInfo.findById(req.params.itemInfo_id, function(err, itemInfo) {
       if (err) res.send(err);
-
-      for (var i = 0; i < itemInfo.priceperurlday.length; i++) {
-        if (itemInfo.priceperurlday[i] !== undefined) {
-          if (itemInfo.priceperurlday[i]._id == req.params.priceOnDay_id) {
-            itemInfo.priceperurlday[i].url = req.body.url
-            itemInfo.save();
-            res.json({ message: "url updated!" });
-          }
-        }
-      }
+      console.log(req.params.itemInfo_id)
+      
     })
   });
   router

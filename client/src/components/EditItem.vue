@@ -94,6 +94,7 @@ export default {
       itemname: 'test',
       sitenames: [],
       wantedprice: null,
+      lowestPrice: null,
       itemId: '/',
       e6: 1,
       itemnameview: false,
@@ -119,7 +120,9 @@ export default {
         let url = 'http://localhost:8080/api/iteminfo/' + id
         const response = await axios.get(url)
         this.itemname = response.data.itemname
+        this.itemId = id
         this.wantedprice = response.data.wantedprice
+        this.lowestPrice = response.data.lowestPrice
         this.sitenames = response.data.priceperurlday
         return response.data
       } catch (error) {
@@ -132,23 +135,45 @@ export default {
     },
     saveSite () {
       this.siteview = !this.siteview
-      alert('still to do')
+      this.updatesite(this.itemid, this.site._id, this.site.url)
     },
     editname (name) {
       this.itemnameview = !this.itemnameview
     },
     saveName () {
       this.itemnameview = !this.itemnameview
-      alert('still to do')
+      this.updateNameAndWantedPrice(this.itemId, this.itemname, this.wantedprice, this.lowestPrice)
     },
     editprice () {
       this.priceview = !this.priceview
     },
     savePrice () {
       this.priceview = !this.priceview
+      this.updateNameAndWantedPrice(this.itemId, this.itemname, this.wantedprice, this.lowestPrice)
     },
     close: function () {
       this.$emit('event_child')
+    },
+    async updateNameAndWantedPrice (id, itemnamenew, wantedpricenew, lowestPricenew) {
+      let url = 'http://localhost:8080/api/iteminfo/' + id
+      console.log(id)
+      try {
+        const response = await axios.post(url, {itemname: itemnamenew, wantedprice: wantedpricenew, lowestPrice: lowestPricenew})
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async updatesite (id, siteid, sitename) {
+      /// iteminfoprice/:itemInfo_id/url/:priceOnDay_id
+      try {
+        let url = 'http://localhost:8080/api/iteminfoprice/' + id + '/url/' + siteid
+        console.log(url)
+        const response = await axios.put(url, {url: sitename})
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }

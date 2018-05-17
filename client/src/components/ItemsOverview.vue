@@ -140,6 +140,7 @@ export default {
     },
     closeDialogEdit: function (item) {
       this.dialogedit = false
+      this.fetchData(this.accessToken)
     },
     editItem (item) {
       this.dialogedit = true
