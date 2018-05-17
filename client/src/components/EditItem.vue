@@ -135,7 +135,8 @@ export default {
     },
     saveSite () {
       this.siteview = !this.siteview
-      this.updatesite(this.itemid, this.site._id, this.site.url)
+      let url = 'http://localhost:8080/api/iteminfoprice/' + this.itemId + '/url/' + this.site._id
+      this.updatesite(url, this.site.url)
     },
     editname (name) {
       this.itemnameview = !this.itemnameview
@@ -156,7 +157,6 @@ export default {
     },
     async updateNameAndWantedPrice (id, itemnamenew, wantedpricenew, lowestPricenew) {
       let url = 'http://localhost:8080/api/iteminfo/' + id
-      console.log(id)
       try {
         const response = await axios.post(url, {itemname: itemnamenew, wantedprice: wantedpricenew, lowestPrice: lowestPricenew})
         return response.data
@@ -164,11 +164,9 @@ export default {
         console.log(error)
       }
     },
-    async updatesite (id, siteid, sitename) {
+    async updatesite (url, sitename) {
       /// iteminfoprice/:itemInfo_id/url/:priceOnDay_id
       try {
-        let url = 'http://localhost:8080/api/iteminfoprice/' + id + '/url/' + siteid
-        console.log(url)
         const response = await axios.put(url, {url: sitename})
         return response.data
       } catch (error) {
