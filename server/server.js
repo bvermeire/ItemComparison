@@ -9,6 +9,9 @@ var jwt = require("express-jwt");
 var jwks = require("jwks-rsa");
 var cors = require("cors");
 
+// scraping import
+var greetings = require("./scrape_API/test");
+
 // Cross-origin resource sharing
 app.use(cors());
 app.options("http://localhost:3000", cors());
@@ -154,25 +157,26 @@ router
       urlPrice.url = req.body.url; //set the url
       itemInfo.priceperurlday.push(urlPrice);
       // save item to DB
-     itemInfo.save(function(err) {  
-      if (err) res.send(err);
-
-     res.json({ message: "site added!" });
-      }) 
+      console.log('saving site')
+     itemInfo.save() 
     })
   });
   router
   .route("/iteminfoprice/:itemInfo_id/url/:priceOnDay_id")
-  .get(function(req,res){
+  .put(function(req,res){
     ItemInfo.findById(req.params.itemInfo_id, function(err, itemInfo) {
       if (err) res.send(err);
+      console.log(req.params.itemInfo_id)
       for (var i = 0; i < itemInfo.priceperurlday.length; i++) {
         if (itemInfo.priceperurlday[i] !== undefined) {
           if (itemInfo.priceperurlday[i]._id == req.params.priceOnDay_id) {
-            res.json(itemInfo.priceperurlday[i]);
+            itemInfo.priceperurlday[i].url = req.body.url
+            itemInfo.save();
+            res.json({ message: "url updated!" });
           }
         }
       }
+      console.log(req.params.itemInfo_id)     
     })
   })
   .delete(function(req,res){
@@ -209,20 +213,16 @@ router
       }
     })
   })
-  .put(function(req,res){
+  .get(function(req,res){
     ItemInfo.findById(req.params.itemInfo_id, function(err, itemInfo) {
       if (err) res.send(err);
-      console.log(req.params.itemInfo_id)
       for (var i = 0; i < itemInfo.priceperurlday.length; i++) {
         if (itemInfo.priceperurlday[i] !== undefined) {
           if (itemInfo.priceperurlday[i]._id == req.params.priceOnDay_id) {
-            itemInfo.priceperurlday[i].url = req.body.url
-            itemInfo.save();
-            res.json({ message: "url updated!" });
+            res.json(itemInfo.priceperurlday[i]);
           }
         }
       }
-      console.log(req.params.itemInfo_id)     
     })
   });
   router
@@ -273,7 +273,15 @@ router
       }
     })
   });
-
+  router
+  .route("/iteminfo/scrape/:itemInfo_id")
+  .get(function(req,res){
+    ItemInfo.findById(req.params.itemInfo_id, function(err, itemInfo) {
+      if (err) res.send(err);
+        let test = greetings.sayHelloInEnglish()
+        res.json(test)
+    })
+  });  
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use("/api", router);

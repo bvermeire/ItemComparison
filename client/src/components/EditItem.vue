@@ -3,13 +3,13 @@
 <div class="itemdetailist">
   <v-list two-line subheader>
     <v-subheader inset>
-      Edit Item
+      <h2>Edit Item</h2>
       <v-spacer></v-spacer>
       <v-btn
-        color="primary" 
+        color="secondary" 
         class="white--text"
         @click.native="close"
-        justify-center layout
+        
       >
         CLOSE
       </v-btn>
@@ -42,11 +42,27 @@
         <v-list-tile-sub-title>{{ site.url }}</v-list-tile-sub-title>
       </v-list-tile-content>
       <v-list-tile-action>
+        <v-btn icon ripple @click="deletesite(site)">
+          <v-icon color="pink">delete</v-icon>
+        </v-btn>
+      </v-list-tile-action>
+      <v-list-tile-action>
         <v-btn icon ripple @click="editsite(site)">
           <v-icon color="grey lighten-1">info</v-icon>
         </v-btn>
       </v-list-tile-action>
     </v-list-tile>
+    <div class="text-lg-right">
+      
+      <v-btn
+      color="success" 
+      class="white--text"
+      @click.native="newsite"
+      right aligned
+      >
+      add site
+    </v-btn>
+    </div>
 </v-list>
 </div>
 <div v-if="siteview" class="grey darken-1">
@@ -82,6 +98,17 @@
     ></v-text-field>
   </v-form>  
 </div>
+<div v-if="addsite" class="grey darken-1">
+  <v-form ref="form" v-model="valid" lazy-validation color="primary" dark>
+    <v-text-field
+      v-model="site"
+      :counter="30"
+      label="Add New Site"
+      required
+      append-icon="save" :append-icon-cb="saveNewSite"
+    ></v-text-field>
+  </v-form>  
+</div>
 </div>
 </template>
 <script>
@@ -100,6 +127,7 @@ export default {
       itemnameview: false,
       siteview: false,
       priceview: false,
+      addsite: false,
       valid: false,
       site: ''
     }
@@ -168,6 +196,44 @@ export default {
       /// iteminfoprice/:itemInfo_id/url/:priceOnDay_id
       try {
         const response = await axios.put(url, {url: sitename})
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    newsite () {
+      this.addsite = !this.addsite
+    },
+    saveNewSite () {
+      let url = 'http://localhost:8080/api/iteminfoprice/' + this.itemId + '/url'
+      this.addsite = !this.addsite
+      this.addnewsite(url, this.site)
+      let newsite = {url: this.site}
+      this.sitenames.push(newsite)
+      // /iteminfoprice/:itemInfo_id/url  url
+    },
+    async addnewsite (url, sitename) {
+      /// iteminfoprice/:itemInfo_id/url/:priceOnDay_id
+      try {
+        const response = await axios.post(url, {url: sitename})
+        return response.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    deletesite (site) {
+      if (this.sitenames.length > 1) {
+        let url = 'http://localhost:8080/api/iteminfoprice/' + this.itemId + '/url/' + site._id
+        this.deletesiteFunction(url)
+        this.sitenames.splice(site.index, 1)
+      } else {
+        alert('Need at minimum 1 site')
+      }
+    },
+    async deletesiteFunction (url) {
+      /// iteminfoprice/:itemInfo_id/url/:priceOnDay_id
+      try {
+        const response = await axios.delete(url)
         return response.data
       } catch (error) {
         console.log(error)

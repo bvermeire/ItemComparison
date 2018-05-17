@@ -30,6 +30,9 @@
             <td class="text-xs-right">{{ props.item.lowestPrice }}</td>
             <td class="text-xs-right">{{ props.item.currentPrice }}</td>
             <td class="justify-center layout px-0">
+            <v-btn icon class="mx-0" @click="scrapeItem(props.item)">
+              <v-icon color="green">perm_data_setting</v-icon>
+            </v-btn>
             <v-btn icon class="mx-0" @click="editItem(props.item)">
               <v-icon color="teal">edit</v-icon>
             </v-btn>
@@ -146,6 +149,19 @@ export default {
       this.dialogedit = true
       this.itemID = item._id
       this.myComponent = edititem
+    },
+    scrapeItem (item) {
+      let url = 'http://localhost:8080/api/iteminfo/scrape/' + item._id
+      this.scrapeItemGet(url)
+    },
+    async scrapeItemGet (url) {
+      try {
+        const response = await axios.get(url)
+        console.log(response)
+        return response
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
