@@ -11,6 +11,7 @@ var cors = require("cors");
 
 // scraping import
 var greetings = require("./scrape_API/test");
+var camel = require("./scrape_API/camel")
 
 // Cross-origin resource sharing
 app.use(cors());
@@ -279,7 +280,9 @@ router
     ItemInfo.findById(req.params.itemInfo_id, function(err, itemInfo) {
       if (err) res.send(err);
         let test = greetings.sayHelloInEnglish()
+        let test2 = camel.run()
         res.json(test)
+        res.json(test2)
     })
   });  
 // REGISTER OUR ROUTES -------------------------------
