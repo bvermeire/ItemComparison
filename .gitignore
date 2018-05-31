@@ -59,4 +59,4 @@ typings/
 
 variables/
 
-.config.js
+server/config.js
