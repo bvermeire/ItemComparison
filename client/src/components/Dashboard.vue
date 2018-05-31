@@ -1,13 +1,18 @@
 <template>
   <div class="itemsoverview">
       dashboard view: {{items.length}} items
+      <chart/>
   </div>
 </template>
 <script>
 import axios from 'axios'
+import chart from './PlanetChart'
 export default {
   name: 'dashboard',
   props: ['auth', 'authenticated'],
+  components: {
+    chart
+  },
   data () {
     return {
       accessToken: '',
