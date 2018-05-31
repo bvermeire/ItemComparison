@@ -10,8 +10,7 @@ var jwks = require("jwks-rsa");
 var cors = require("cors");
 
 // scraping import
-var greetings = require("./scrape_API/test");
-var camel = require("./scrape_API/camel")
+var scrape = require("./scrape_API/scrape")
 
 // Cross-origin resource sharing
 app.use(cors());
@@ -167,7 +166,6 @@ router
   .put(function(req,res){
     ItemInfo.findById(req.params.itemInfo_id, function(err, itemInfo) {
       if (err) res.send(err);
-      console.log(req.params.itemInfo_id)
       for (var i = 0; i < itemInfo.priceperurlday.length; i++) {
         if (itemInfo.priceperurlday[i] !== undefined) {
           if (itemInfo.priceperurlday[i]._id == req.params.priceOnDay_id) {
@@ -177,7 +175,6 @@ router
           }
         }
       }
-      console.log(req.params.itemInfo_id)     
     })
   })
   .delete(function(req,res){
@@ -276,15 +273,36 @@ router
   });
   router
   .route("/iteminfo/scrape/:itemInfo_id")
-  .get(function(req,res){
-    ItemInfo.findById(req.params.itemInfo_id, function(err, itemInfo) {
+  .get(function(req, res, next) {
+    ItemInfo.findById(req.params.itemInfo_id, async function(err, itemInfo) {
       if (err) res.send(err);
-        let test = greetings.sayHelloInEnglish()
-        let test2 = camel.run()
-        res.json(test)
-        res.json(test2)
+      if (itemInfo.priceperurlday!==undefined){
+        for (var i = 0; i < itemInfo.priceperurlday.length; i++) {
+          if (itemInfo.priceperurlday[i] !== undefined) {
+            scrape(itemInfo.priceperurlday[i].url, itemInfo, i)
+            // wait 10 seconds
+            await yourFunction()
+          }
+          if (i ==itemInfo.priceperurlday.length-1){
+            res.json({ message: "price updated!" });
+          }
+        }
+      }
     })
-  });  
+    
+    async function yourFunction() {
+      await wait(10000);
+      // console.log("Waited 10s");
+      
+    }
+    const wait = (ms) => {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }
+    
+  })
+
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use("/api", router);

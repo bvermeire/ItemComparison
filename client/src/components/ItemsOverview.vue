@@ -157,7 +157,8 @@ export default {
     async scrapeItemGet (url) {
       try {
         const response = await axios.get(url)
-        console.log(response)
+        // console.log(response.data)
+        await this.fetchData(this.accessToken)
         return response
       } catch (error) {
         console.log(error)

@@ -1,26 +1,25 @@
 const puppeteer = require('puppeteer');
 
-function getTitle() {
-  if (document.querySelector('meta[property="og:title"]')) {
-    return document.querySelector('meta[property="og:title"]').content;
-  }
-  if (document.querySelector('[itemprop="name"]')) {
-    return document.querySelector('[itemprop="name"]').text;
-  }
-  if (document.querySelector('title')) {
-    return document.querySelector('title').text;
-  }
-  return window.location.href; // Print URL as a fallback
+//module.exports = { scrape: async function () { return await scraping(); } }
+module.exports = async function(url) {
+//let scrapebooks = async function (url){
+   const browser = await puppeteer.launch({headless: true});
+    const page = await browser.newPage();
+    await page.goto(url);
+    await page.waitFor(2000);
+    await page.click('#qcCmpButtons > button');
+    await page.waitFor(4000);
+    let result = await page.evaluate(extractSpan);
+    browser.close();
+    return result[2];
+
 }
 
-module.exports = { run: async function () {
-  const browser = await puppeteer.connect({
-    browserWSEndpoint: 'wss://chrome.browserless.io'
-  });
-  const page = await browser.newPage();
-  await page.goto('https://es.camelcamelcamel.com/Oneplus-5T-6GB-64GB-SnapdragonTM835/product/B07858T4JY');
-  const title = await page.evaluate(getTitle);
-  console.log(title);
-  browser.close();
-}
-}
+function extractSpan() {
+    const extractedElements = document.querySelectorAll('span');
+    const items = [];
+    for (let element of extractedElements) {
+      items.push(element.innerText);
+    }
+    return items;
+  }
