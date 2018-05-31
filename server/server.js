@@ -18,10 +18,11 @@ app.options("http://localhost:3000", cors());
 
 
 // setup the mongo database
-var { AUTH_CONFIG } = require('../client/src/auth/auth0-variables')
+var mongourl = require('./variables/config')
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-mongoose.connect(AUTH_CONFIG.mongoUrl);
+// console.log(mongourl.url)
+mongoose.connect(mongourl.url);
 
 //import the database scheme
 var ItemInfo = require("./models/iteminfo");
