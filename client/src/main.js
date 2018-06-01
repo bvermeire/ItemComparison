@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueChartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+Vue.use(VueChartkick, {adapter: Chart})
 // import { Table } from 'bootstrap-vue/es/components';
 // import { ListGroup } from 'bootstrap-vue/es/components';
 import { Button } from 'bootstrap-vue/es/components';
