@@ -61,3 +61,7 @@ If you have found a bug or if you have a feature request, please report them at 
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE.txt) file for more info.
 
+## Colors
+#b82323
+#23b8b8
+#6eb823
