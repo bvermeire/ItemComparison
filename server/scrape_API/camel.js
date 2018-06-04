@@ -11,7 +11,11 @@ module.exports = async function(url) {
     await page.waitFor(4000);
     let result = await page.evaluate(extractSpan);
     browser.close();
-    return result[2];
+    // console.log('result 0 is: ' + result[0])
+    // console.log('result 1 is: ' + result[1])
+    // console.log('result 2 is: ' + result[2])
+    // console.log('result 3 is: ' + result[3])
+    return result[3];
 
 }
 

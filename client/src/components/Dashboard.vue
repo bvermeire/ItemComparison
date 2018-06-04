@@ -1,19 +1,16 @@
 <template>
   <div class="itemsoverview">
       TO DO INFOBOX: {{items.length}} items
-      <chart/>
       <kickchart/>
   </div>
 </template>
 <script>
 import axios from 'axios'
-import chart from './PlanetChart'
 import kickchart from './charts/kickchart'
 export default {
   name: 'dashboard',
   props: ['auth', 'authenticated'],
   components: {
-    chart,
     kickchart
   },
   data () {

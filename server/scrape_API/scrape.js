@@ -10,13 +10,15 @@ module.exports = async function(url, itemInfo, i) {
     } else if (url.indexOf(URL_LIST.camel) !== -1){
         const process = async (priceOnday, itemInfo) => {
             const camelresult = await camelscrape(url)
-            console.log(camelresult)
+            // console.log('this should be price:'+ camelresult)
             // const camelresult = "319,00" //"1,329.05€"
             // convert resul to of . to nothing and , to .
             const camelresultUS = await usToEuCurrencyFormat(camelresult)    
             // assign to priceonday 
+            // console.log(isNaN(camelresultUS))
             priceOnday.price = camelresultUS
             itemInfo.currentPrice = camelresultUS
+            // console.log(isNaN(itemInfo.currentPrice))
             // push to item
             itemInfo.priceperurlday[i].priceonday.push(priceOnday)
             return camelresultUS
