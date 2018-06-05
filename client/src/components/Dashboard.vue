@@ -1,7 +1,7 @@
 <template>
   <div class="itemsoverview">
     TO DO INFOBOX: {{items.length}} items
-      <kickchart  v-for="item in items" v-bind:key="item._id" v-bind:itemprop="item"></kickchart>
+      <kickchart ></kickchart>
   </div>
 </template>
 <script>
