@@ -3,10 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import hchcVue from 'hchs-vue-charts'
-Vue.use(VueChartkick, {adapter: Chart})
 Vue.use(VueCharts)
 Vue.use(require('vue-moment'));
 // import { Table } from 'bootstrap-vue/es/components';

@@ -6,7 +6,7 @@
 <script>
 /* eslint-disable */
 import Chart from 'chart.js'
-import planetChartData from '../charts/planet-chart-data.js'
+import planetChartData from './simpletimechart.js'
 export default {
   data() {
     return {
