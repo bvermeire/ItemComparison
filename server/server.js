@@ -12,6 +12,9 @@ var cors = require("cors");
 // scraping import
 var scrape = require("./scrape_API/scrape")
 
+// graph import
+var graph = require("./graph_API/graphdata")
+
 // Cross-origin resource sharing
 app.use(cors());
 app.options("http://localhost:3000", cors());
@@ -304,7 +307,17 @@ router
     }
     
   })
-
+  router
+.route("/iteminfo/graph/:itemInfo_id")
+.get(function(req, res, next) {
+  var test = "temp"
+  ItemInfo.findById(req.params.itemInfo_id, async function(err, itemInfo) {
+    if (err) res.send(err);
+    test= await graph(itemInfo)
+    res.json(test);
+  })
+  
+})
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use("/api", router);
