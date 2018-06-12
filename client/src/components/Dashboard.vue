@@ -1,7 +1,10 @@
 <template>
   <div class="itemsoverview">
     TO DO INFOBOX: {{items.length}} items
-      <kickchart/>
+    <div v-for="(item, index) in items" :key="item._id" v-if="loaded">
+      {{index}}
+      <kickchart v-bind:canvasID="item.itemname" v-bind:passedAccessToken="accessToken" v-bind:itemID="item._id" v-bind:indextest="index"/>
+    </div>
   </div>
 </template>
 <script>
@@ -17,7 +20,10 @@ export default {
   data () {
     return {
       accessToken: '',
-      items: ''
+      items: '',
+      loaded: false,
+      testname: 'canvastestname',
+      testname2: 'canvatstesadf'
       // headers: { Authorization: `Bearer ${accessToken}` }
     }
   },
@@ -31,6 +37,7 @@ export default {
       .get('http://localhost:8080/api/iteminfo', config)
       .then(response => {
         this.items = response.data
+        this.loaded = true
       })
   }
 }
