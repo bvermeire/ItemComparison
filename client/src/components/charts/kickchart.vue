@@ -10,18 +10,15 @@
 </template>
 
 <script>
-import axios from 'axios'
 // import {Bar} from 'vue-chartjs'
 /* eslint-disable */
 export default {
-  props: ['passedAccessToken', 'canvasID', 'itemID', 'indextest'],
+  props: ['canvasID', 'itemID', 'indextest'],
   // extends: Bar,
   data () {
     return {
       canvasname: this.canvasID,
       getcount: this.indextest +2,
-      accessToken: this.passedAccessToken,
-      item: this.passedItem,
       chartData1: [50, 10, 60, 55, 35],
       chartOptions: {responsive: false, maintainAspectRatio: false},
       mylabels: ['A', 'B', 'C', 'D', 'E'],
@@ -37,19 +34,6 @@ export default {
       return [20, 30, 20, 10, 5]
     }
   // props: ['itemprop']
-  },
-  created () {
-    var config = {
-      headers: { Authorization: `Bearer ${this.passedAccessToken}` }
-    }
-    axios
-      .get('http://localhost:8080/api/iteminfo/graph/'+ this.itemID, config)
-      .then(response => {
-        // this.items = response.data
-        console.log(response.data.differentsitesandcolums)
-        // this.getcount = response.data.differentsitesandcolums + 1
-        console.log(response.data)
-      })
   }
 }
 </script>
