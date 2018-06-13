@@ -1,22 +1,26 @@
 <template>
   <div class="itemsoverview">
     TO DO INFOBOX: {{items.length}} items
+    <v-container fluid >
     <div v-for="(graph, index) in graphdata" :key="index" v-if="loaded">
+      <!-- <kickchart v-bind:canvasID="graph.itemname" v-bind:columncount="graph.differentsitesandcolums" v-bind:data="graph"/> -->
       {{graph}}
-      {{index}}
-      <kickchart v-bind:canvasID="graph.itemname" v-bind:indextest="index" v-bind:data="graph"/>
+      <combochart v-bind:data="graph"/>
     </div>
+    
+    </v-container>
   </div>
 </template>
 <script>
 import axios from 'axios'
-import kickchart from './charts/kickchart'
+// import kickchart from './charts/kickchart'
 // import planetchart from './charts/old.charts/PlanetChart'
+import combochart from './charts/ComboChart'
 export default {
   name: 'dashboard',
   props: ['auth', 'authenticated'],
   components: {
-    kickchart
+    combochart
   },
   data () {
     return {
