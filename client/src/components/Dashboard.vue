@@ -1,14 +1,13 @@
 <template>
   <div class="itemsoverview">
     TO DO INFOBOX: {{items.length}} items
-    <v-container fluid >
+    
     <div v-for="(graph, index) in graphdata" :key="index" v-if="loaded">
       <!-- <kickchart v-bind:canvasID="graph.itemname" v-bind:columncount="graph.differentsitesandcolums" v-bind:data="graph"/> -->
-      {{graph}}
-      <combochart v-bind:data="graph"/>
+      <combochart style="position: relative; height:40vh; width:60vw" combochart v-bind:data="graph"/>
     </div>
     
-    </v-container>
+
   </div>
 </template>
 <script>
